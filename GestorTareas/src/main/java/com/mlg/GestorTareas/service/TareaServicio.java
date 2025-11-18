@@ -1,6 +1,5 @@
 package com.mlg.GestorTareas.service;
 
-import com.mlg.GestorTareas.exception.RecursoNoEncontradoException;
 import com.mlg.GestorTareas.model.dto.TareaDTO;
 import com.mlg.GestorTareas.model.entity.Tarea;
 import com.mlg.GestorTareas.repository.TareaRespositorio;
@@ -36,14 +35,14 @@ public class TareaServicio {
         return tareas;
     }
 
-    public TareaDTO buscarTareaId(Long id){
+    public TareaDTO buscarTareaId(Long id) throws Exception {
         TareaDTO tareaEncontrada = null;
         Optional<Tarea> tareaOptional = tareaRepositorio.findById(id);
         if(tareaOptional.isPresent()){
             tareaEncontrada = convertirEntidadDto(tareaOptional.get());
             return tareaEncontrada;
         } else {
-            throw new RecursoNoEncontradoException("Tarea con ID " + id + " no encontrada");
+            throw new Exception("Tarea no encontrada");
         }
     }
 
