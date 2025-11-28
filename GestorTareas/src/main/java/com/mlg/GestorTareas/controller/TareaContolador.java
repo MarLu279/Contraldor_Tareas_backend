@@ -25,7 +25,7 @@ public class TareaContolador {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TareaDTO> buscarTareaId(@PathVariable Long id) throws Exception {
+    public ResponseEntity<TareaDTO> buscarTareaId(@PathVariable Long id){
         TareaDTO tareaEncontrada = tareaServicio.buscarTareaId(id);
         return ResponseEntity.ok(tareaEncontrada);
     }

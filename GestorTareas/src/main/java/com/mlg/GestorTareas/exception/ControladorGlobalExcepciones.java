@@ -31,4 +31,15 @@ public class ControladorGlobalExcepciones {
                 .build();
         return ResponseEntity.badRequest().body(errorAtributos);
     }
+
+    @ExceptionHandler(RecursoNoEncontradoException.class)
+    public ResponseEntity<ErrorRespuesta> handleRecursoNoEncontrado(RecursoNoEncontradoException ex, HttpServletRequest request){
+        ErrorRespuesta error = ErrorRespuesta.builder()
+                .mensaje(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .path(request.getRequestURI())
+                .hora(LocalDateTime.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 }
