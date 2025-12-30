@@ -11,18 +11,18 @@ public class TareaDTO {
     private String titulo;
     @NotBlank(message = "La descripcion es obligatoria")
     private String descripcion;
-    private String estado;
+    private boolean estado;
 
     //Constructores
     public TareaDTO(){}
 
-    public TareaDTO(String titulo, String descripcion, String estado){
+    public TareaDTO(String titulo, String descripcion, boolean estado){
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.estado = estado;
     }
 
-    public TareaDTO(Long id, String titulo, String descripcion, String estado){
+    public TareaDTO(Long id, String titulo, String descripcion, boolean estado){
         this(titulo, descripcion, estado);
         this.id = id;
     }

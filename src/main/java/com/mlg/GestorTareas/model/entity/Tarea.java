@@ -21,5 +21,5 @@ public class Tarea {
     @Column(length = 500)
     private String descripcion;
 
-    private String estado;
+    private boolean estado;
 }

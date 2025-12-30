@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tareas")
@@ -35,4 +36,23 @@ public class TareaContolador {
         TareaDTO nuevaTarea = tareaServicio.crearTarea(tareaDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaTarea);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarTarea(@PathVariable Long id){
+        tareaServicio.eliminarTarea(id);
+        return ResponseEntity.noContent().build();
+    }
+
+     @PatchMapping("/{id}")
+    public ResponseEntity<TareaDTO> actualizarTareaParcial (@PathVariable Long id,
+                                                            @RequestBody Map<String, Object> camposActualizar){
+        TareaDTO tareaActualizada = tareaServicio.actualizarTareaParcial(id, camposActualizar);
+        return ResponseEntity.ok(tareaActualizada);
+     }
+
+     @PatchMapping("/{id}/completar")
+    public ResponseEntity<TareaDTO> marcarComoCompletada(@PathVariable Long id){
+        TareaDTO tareaCompletada = tareaServicio.marcarComoCompletada(id);
+        return ResponseEntity.ok(tareaCompletada);
+     }
 }

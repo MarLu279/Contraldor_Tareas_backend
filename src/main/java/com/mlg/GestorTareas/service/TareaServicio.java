@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class TareaServicio {
     private final TareaRespositorio tareaRepositorio;
-
 
     public TareaServicio(TareaRespositorio tareaRepositorio) {
         this.tareaRepositorio = tareaRepositorio;
@@ -47,12 +47,55 @@ public class TareaServicio {
         }
     }
 
+    //Eliminar tarea
+    public void eliminarTarea(Long id){
+        if(!tareaRepositorio.existsById(id)){
+            throw new RecursoNoEncontradoException("Tarea no encontrada");
+        }
+        tareaRepositorio.deleteById(id);
+    }
+
+    public TareaDTO actualizarTareaParcial(Long id, Map<String, Object> camposActualizar){
+        Optional<Tarea> tareaExistente = tareaRepositorio.findById(id);
+
+       if(tareaExistente.isEmpty()){
+           throw new RecursoNoEncontradoException("Tarea con ID: " + id + " no encontrada");
+       }
+       Tarea tareaEncontrada = tareaExistente.get();
+
+        //Actualizar campos recibidos
+        if(camposActualizar.containsKey("titulo")){
+            tareaEncontrada.setTitulo((String) camposActualizar.get("titulo"));
+        }
+        if (camposActualizar.containsKey("descripcion")){
+            tareaEncontrada.setDescripcion((String) camposActualizar.get("descripcion"));
+        }
+        if(camposActualizar.containsKey("estado")){
+            tareaEncontrada.setEstado((Boolean) camposActualizar.get("estado"));
+        }
+        //Guardar cambios
+        Tarea tareaActualizada = tareaRepositorio.save(tareaEncontrada);
+        return convertirEntidadDto(tareaActualizada);
+    }
+
+    public TareaDTO marcarComoCompletada(Long id){
+        Optional<Tarea> tareaEncontrada = tareaRepositorio.findById(id);
+
+        if(tareaEncontrada.isEmpty()){
+            throw new RecursoNoEncontradoException("Tarea con ID: " + id + " no encontrada");
+        }
+        Tarea tareaCompletada = tareaEncontrada.get();
+        tareaCompletada.setEstado(true);
+        Tarea tareaActualizada = tareaRepositorio.save(tareaCompletada);
+        return convertirEntidadDto(tareaActualizada);
+    }
+
     //Métodos complementarios
     private Tarea convertirDtoEntidad(TareaDTO tDto){
         Tarea tarea = new Tarea();
         tarea.setTitulo(tDto.getTitulo());
         tarea.setDescripcion(tDto.getDescripcion());
-        tarea.setEstado(tDto.getEstado());
+        tarea.setEstado(tDto.isEstado());
         return tarea;
     }
 
@@ -61,7 +104,7 @@ public class TareaServicio {
         tareaDto.setId(tarea.getId());
         tareaDto.setTitulo(tarea.getTitulo());
         tareaDto.setDescripcion(tarea.getDescripcion());
-        tareaDto.setEstado(tarea.getEstado());
+        tareaDto.setEstado(tarea.isEstado());
         return tareaDto;
     }
 }
