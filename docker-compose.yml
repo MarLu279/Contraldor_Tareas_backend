@@ -1,0 +1,37 @@
+services:
+  #serv 1: Base de datos MySQL
+  mysql-db:
+    image: mysql:8.0
+    container_name: GestorTarea_DB
+
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: GestorTareas_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+
+    ports:
+      - "3307:3306"
+
+   # volumes:
+    #  - mysql_data:/var/lib/mysql
+
+  #Aplicacion Spring Boot
+  app:
+    build: .
+    container_name: gestorTareas-app
+    restart: unless-stopped
+
+    depends_on:
+      - mysql-db
+
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+    ports:
+      - "8080-8080"
+
+  #  volumes:
+   #   - mysql_data:
+    #      driver: local

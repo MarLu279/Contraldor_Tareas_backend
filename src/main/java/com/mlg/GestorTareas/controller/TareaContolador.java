@@ -43,7 +43,7 @@ public class TareaContolador {
         return ResponseEntity.noContent().build();
     }
 
-     @PatchMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<TareaDTO> actualizarTareaParcial (@PathVariable Long id,
                                                             @RequestBody Map<String, Object> camposActualizar){
         TareaDTO tareaActualizada = tareaServicio.actualizarTareaParcial(id, camposActualizar);
