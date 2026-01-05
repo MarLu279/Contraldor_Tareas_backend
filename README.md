@@ -1,4 +1,4 @@
-# 🚀 API Gestor de Tareas - Spring Boot
+# 🚀 API Controlador de Tareas - Spring Boot
 
 [![Java Version](https://img.shields.io/badge/Java-21-blue.svg)](...)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen.svg)](...)
@@ -45,6 +45,7 @@ Puedes usar herramientas como Postman, Insomnia o curl desde la terminal para pr
 |Eliminar una tarea	      | DELETE |    /tareas/1 | -                                                                              | 
 
 Ejemplo con curl para crear una tarea:
+
 curl -X POST http://localhost:8080/tareas \
 -H "Content-Type: application/json" \
 -d '{"titulo": "Mi primera tarea", "descripcion": "Descripción de prueba", "estado": false}'
